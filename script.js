@@ -108,7 +108,6 @@ function checkWinTopRightBottomLeftDiagonal(player){
 }
 
 function checkWin(player) {
-    var winCount = 0;
     var row;
     var col;
     // check across the X-Axis
