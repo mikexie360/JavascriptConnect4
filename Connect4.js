@@ -9,31 +9,39 @@ var rows = 6;
 var columns = 7;
 var currColumns = []; //keeps track of which row each column is at.
 
+// when the game loads, we need to set the board up with the setGame function.
 window.onload = function() {
     setGame();
 }
 
+// sets up the website and creates HTML code for us.
 function setGame() {
+    // variable to store the player turns
     board = [];
+    // keep track of the columns so that we know when we run out of space in the columns
     currColumns = [5, 5, 5, 5, 5, 5, 5];
 
     for (let r = 0; r < rows; r++) {
         let row = [];
         for (let c = 0; c < columns; c++) {
             // JS
+            // creates empty spaces in the row at the start of the game.
             row.push(' ');
             // HTML
-            let tile = document.createElement("div");
-            tile.id = r.toString() + "-" + c.toString();
-            tile.classList.add("tile");
-            tile.addEventListener("click", setPiece);
-            document.getElementById("board").append(tile);
+            // Creates the HTML using Document Object Model
+            let tile = document.createElement("div");           // creates a tile variable that holds an HTML div tag
+            tile.id = r.toString() + "-" + c.toString();        // the tile div tag will have an id. examples would be 0-0, 0-1, 1-0, 1-1
+            tile.classList.add("tile");                         // adds a 'tile' class to the HTML tag.
+            tile.addEventListener("click", setPiece);           // add an event listener property that when click will call the setPiece function
+            document.getElementById("board").append(tile);      // adds the HTML tile tag to the HTML board id
         }
+        // this creates board row by row.
         board.push(row);
     }
 }
 
 function setPiece() {
+    // if the game is over, you cannot add pieces and nothing happens
     if (gameOver) {
         return;
     }
@@ -46,10 +54,13 @@ function setPiece() {
     // figure out which row the current column should be on
     r = currColumns[c]; 
 
+    // if r is less than 0, then r is a negative number, which is impossible so nothing should happen.
+    // basically an error check.
     if (r < 0) { // board[r][c] != ' '
         return;
     }
 
+    // update the board with the correct piece.
     board[r][c] = currPlayer; //update JS board
     let tile = document.getElementById(r.toString() + "-" + c.toString());
     if (currPlayer == playerRed) {
@@ -63,6 +74,7 @@ function setPiece() {
 
     r -= 1; //update the row height for that column
     currColumns[c] = r; //update the array
+    checkTie(); // check for ties
 
     checkWinner();
 }
@@ -118,11 +130,21 @@ function checkWinner() {
 }
 
 function setWinner(r, c) {
-    let winner = document.getElementById("winner");
+    let result = document.getElementById("result");
     if (board[r][c] == playerRed) {
-        winner.innerText = "Red Wins";             
+        result.innerText = "Red Wins";             
     } else {
-        winner.innerText = "Yellow Wins";
+        result.innerText = "Yellow Wins";
     }
     gameOver = true;
+}
+
+var turns = 0;
+function checkTie(){
+    let result = document.getElementById("result");
+    turns++;
+    if (turns === row*columns) {
+        result.innerText = "Red and Yellow Tie";
+        gameOver = true;
+    }
 }
