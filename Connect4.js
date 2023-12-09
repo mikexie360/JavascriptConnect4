@@ -4,6 +4,7 @@ var currPlayer = playerRed;
 
 var gameOver = false;
 var board;
+var turns = 0;
 
 var rows = 6;
 var columns = 7;
@@ -32,7 +33,6 @@ function setGame() {
 
     // hide the reset button on start up. Reset button is hidden until someone wins.
     document.getElementById("resetButton").style.display = "none";
-    
     document.getElementById("result").innerText = "";
 
     for (let r = 0; r < rows; r++) {
@@ -161,8 +161,6 @@ function setWinner(r, c) {
     gameOver = true;
 }
 
-// turns start at 0
-var turns = 0;
 function checkTie(){
     let result = document.getElementById("result");
     turns = turns + 1;
