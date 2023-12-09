@@ -46,7 +46,7 @@ function setGame() {
             let tile = document.createElement("div");           // creates a tile variable that holds an HTML div tag
             tile.id = r.toString() + "-" + c.toString();        // the tile div tag will have an id. examples would be 0-0, 0-1, 1-0, 1-1
             tile.classList.add("tile");                         // adds a 'tile' class to the HTML tag.
-            tile.addEventListener("click", setPiece);           // add an event listener property that when click will call the setPiece function
+            tile.addEventListener("click", setPiece);           // add an event listener that when clicked on will call the setPiece function
             document.getElementById("board").append(tile);      // adds the HTML tile tag to the HTML board id
         }
         // this creates board row by row.
