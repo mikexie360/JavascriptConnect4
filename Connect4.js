@@ -16,10 +16,24 @@ window.onload = function() {
 
 // sets up the website and creates HTML code for us.
 function setGame() {
+    gameOver = false;
+    turns = 0;
     // variable to store the player turns
     board = [];
     // keep track of the columns so that we know when we run out of space in the columns
     currColumns = [5, 5, 5, 5, 5, 5, 5];
+    currPlayer = playerRed;
+
+    if (currPlayer === "R"){
+        document.getElementById("currentTurn").innerText = "Red Player's Turn";
+    } else {
+        document.getElementById("currentTurn").innerText = "Yellow Player's Turn";
+    }
+
+    // hide the reset button on start up. Reset button is hidden until someone wins.
+    document.getElementById("resetButton").style.display = "none";
+    
+    document.getElementById("result").innerText = "";
 
     for (let r = 0; r < rows; r++) {
         let row = [];
@@ -70,6 +84,12 @@ function setPiece() {
     else {
         tile.classList.add("yellow-piece");
         currPlayer = playerRed;
+    }
+    // update and remind the user who's turn it is
+    if (currPlayer === "R"){
+        document.getElementById("currentTurn").innerText = "Red Player's Turn";
+    } else {
+        document.getElementById("currentTurn").innerText = "Yellow Player's Turn";
     }
 
     r -= 1; //update the row height for that column
@@ -136,15 +156,27 @@ function setWinner(r, c) {
     } else {
         result.innerText = "Yellow Wins";
     }
+    document.getElementById("currentTurn").innerText = "";
+    document.getElementById("resetButton").style.display = "block";
     gameOver = true;
 }
 
+// turns start at 0
 var turns = 0;
 function checkTie(){
     let result = document.getElementById("result");
-    turns++;
-    if (turns === row*columns) {
-        result.innerText = "Red and Yellow Tie";
+    turns = turns + 1;
+    if (turns === (rows*columns)) {
+        result.innerText = "Tie";
+        document.getElementById("currentTurn").innerText = "";
+        document.getElementById("resetButton").style.display = "block";
         gameOver = true;
     }
+}
+
+function reset(){
+    // we need to reset the board for the next game.
+    let boardTag = document.getElementById("board");
+    boardTag.innerHTML = '';
+    setGame();
 }
